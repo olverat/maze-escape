@@ -65,16 +65,30 @@ public class Maze extends PrimMST {
     }
 
     // Convert vertex number to grid coordinates
-    private int[] vertexToGrid(int v) {
-        int x = v % width;
-        int y = v / width;
-        return new int[] { x, y };
-    }
+    // private Point vertexToGrid(int v) {
+    // int x = v % width;
+    // int y = v / width;
+    // return new Point(x, y);
+    // }
 
     // Check if there's a path between two adjacent cells
     public boolean isPath(int x1, int y1, int x2, int y2) {
         int v1 = gridToVertex(x1, y1, width);
         int v2 = gridToVertex(x2, y2, width);
+
+        for (Edge e : mazePaths) {
+            int v = e.either();
+            int w = e.other(v);
+            if ((v == v1 && w == v2) || (v == v2 && w == v1)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public boolean isPath(Cell a, Cell b) {
+        int v1 = gridToVertex(a.getX(), a.getY(), width);
+        int v2 = gridToVertex(b.getX(), b.getY(), width);
 
         for (Edge e : mazePaths) {
             int v = e.either();
@@ -127,5 +141,17 @@ public class Maze extends PrimMST {
         maze.printMaze();
 
         // TODO: Convert this text version of the maze to a GUI
+    }
+
+    public List<Edge> getMazePaths() {
+        return mazePaths;
+    }
+
+    public int getWidth() {
+        return width;
+    }
+
+    public int getHeight() {
+        return height;
     }
 }
