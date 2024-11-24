@@ -126,7 +126,7 @@ public class MazeVisualizer extends JFrame {
 
     public static void main(String[] args) {
         // Set maze size
-        int N = 40;
+        int N = 30;
 
         // Generate Maze using PrimMST
         EdgeWeightedGraph graph = Maze.createGridGraph(N, N);

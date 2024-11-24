@@ -72,20 +72,6 @@ public class Maze extends PrimMST {
     // }
 
     // Check if there's a path between two adjacent cells
-    public boolean isPath(int x1, int y1, int x2, int y2) {
-        int v1 = gridToVertex(x1, y1, width);
-        int v2 = gridToVertex(x2, y2, width);
-
-        for (Edge e : mazePaths) {
-            int v = e.either();
-            int w = e.other(v);
-            if ((v == v1 && w == v2) || (v == v2 && w == v1)) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public boolean isPath(Cell a, Cell b) {
         int v1 = gridToVertex(a.getX(), a.getY(), width);
         int v2 = gridToVertex(b.getX(), b.getY(), width);
@@ -114,13 +100,17 @@ public class Maze extends PrimMST {
             System.out.print("|");
             for (int x = 0; x < width - 1; x++) {
                 System.out.print("   ");
-                System.out.print(isPath(x, y, x + 1, y) ? " " : "|");
+                Cell currentCell = new Cell(x, y);
+                Cell rightCell = new Cell(x + 1, y);
+                System.out.print(isPath(currentCell, rightCell) ? " " : "|");
             }
             System.out.println("   |");
 
             // Print horizontal walls
             for (int x = 0; x < width; x++) {
-                System.out.print(y < height - 1 && isPath(x, y, x, y + 1) ? "+   " : "+---");
+                Cell currentCell = new Cell(x, y);
+                Cell bottomCell = new Cell(x, y + 1);
+                System.out.print(y < height - 1 && isPath(currentCell, bottomCell) ? "+   " : "+---");
             }
             System.out.println("+");
         }
