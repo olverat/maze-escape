@@ -129,8 +129,6 @@ public class Maze extends PrimMST {
 
         // Print the maze
         maze.printMaze();
-
-        // TODO: Convert this text version of the maze to a GUI
     }
 
     public List<Edge> getMazePaths() {
