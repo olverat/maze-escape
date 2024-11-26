@@ -63,19 +63,18 @@ public class MazeVisualizer extends JFrame {
 
         // Set line properties
         g2d.setStroke(new BasicStroke(8));
-        g2d.setColor(Color.BLACK);
 
         // Draw all walls first
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Cell cell = new Cell(x, y);
-                int cellX = cell.getX() * cellWidth;
-                int cellY = cell.getY() * cellHeight;
+                Point currentCell = new Point(x, y);
+                int cellX = currentCell.getX() * cellWidth;
+                int cellY = currentCell.getY() * cellHeight;
 
                 // Draw right wall if needed
-                if (cell.getX() < width - 1) {
-                    Cell rightCell = new Cell(cell.getX() + 1, cell.getY());
-                    if (!maze.isPath(cell, rightCell)) {
+                if (currentCell.getX() < width - 1) {
+                    Point rightCell = new Point(currentCell.getX() + 1, currentCell.getY());
+                    if (!maze.isPath(currentCell, rightCell)) {
                         g2d.drawLine(cellX + cellWidth, cellY,
                                 cellX + cellWidth, cellY + cellHeight);
                     }
@@ -86,9 +85,9 @@ public class MazeVisualizer extends JFrame {
                 }
 
                 // Draw bottom wall if needed
-                if (cell.getY() < height - 1) {
-                    Cell bottomCell = new Cell(cell.getX(), cell.getY() + 1);
-                    if (!maze.isPath(cell, bottomCell)) {
+                if (currentCell.getY() < height - 1) {
+                    Point bottomCell = new Point(currentCell.getX(), currentCell.getY() + 1);
+                    if (!maze.isPath(currentCell, bottomCell)) {
                         g2d.drawLine(cellX, cellY + cellHeight,
                                 cellX + cellWidth, cellY + cellHeight);
                     }
@@ -99,12 +98,12 @@ public class MazeVisualizer extends JFrame {
                 }
 
                 // Always draw left border wall for first column
-                if (cell.getX() == 0) {
+                if (currentCell.getX() == 0) {
                     g2d.drawLine(cellX, cellY, cellX, cellY + cellHeight);
                 }
 
                 // Always draw top border wall for first row
-                if (cell.getY() == 0) {
+                if (currentCell.getY() == 0) {
                     g2d.drawLine(cellX, cellY, cellX + cellWidth, cellY);
                 }
             }
@@ -126,7 +125,7 @@ public class MazeVisualizer extends JFrame {
 
     public static void main(String[] args) {
         // Set maze size
-        int N = 30;
+        int N = 15;
 
         // Generate Maze using PrimMST
         EdgeWeightedGraph graph = Maze.createGridGraph(N, N);

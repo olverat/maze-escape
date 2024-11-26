@@ -12,16 +12,19 @@ import edu.princeton.cs.algs4.PrimMST;
 public class Maze extends PrimMST {
     private int width;
     private int height;
-    private List<Edge> mazePaths; // The edges that form our maze
+
+    // Represents all possible paths that can be taken in the maze
+    private List<Edge> mazePaths;
 
     public Maze(EdgeWeightedGraph G, int width, int height) {
-        super(G); // Call parent constructor to build MST
+        // Call parent (PrimMST) constructor to build the minimum-spanning tree 
+        super(G);
+
         this.width = width;
         this.height = height;
         this.mazePaths = new ArrayList<>();
 
-        // edges() gives us the MST edges computed from G
-        // Convert the MST edges to maze paths
+        // edges() gives us the MST edges (maze paths) computed from G
         for (Edge e : edges()) {
             mazePaths.add(e);
         }
@@ -42,13 +45,17 @@ public class Maze extends PrimMST {
                 int v = gridToVertex(x, y, width);
 
                 // Add horizontal edge (if not at right edge)
+                // If our x-coordinate is within bounds
                 if (x < width - 1) {
+                    // Convert (x,y) to a vertex number
                     int u = gridToVertex(x + 1, y, width);
+
                     Edge e = new Edge(v, u, rand.nextDouble()); // Random weight
                     G.addEdge(e);
                 }
 
                 // Add vertical edge (if not at bottom edge)
+                // If our y-coordinate is within bounds
                 if (y < height - 1) {
                     int u = gridToVertex(x, y + 1, width);
                     Edge e = new Edge(v, u, rand.nextDouble()); // Random weight
@@ -71,8 +78,10 @@ public class Maze extends PrimMST {
     // return new Point(x, y);
     // }
 
-    // Check if there's a path between two adjacent cells
-    public boolean isPath(Cell a, Cell b) {
+    // Check if there's a path (no wall) between two adjacent points in our maze
+    public boolean isPath(Point a, Point b) {
+        // Start with (x,y) of Cell a and (x,y) of Cell b
+
         int v1 = gridToVertex(a.getX(), a.getY(), width);
         int v2 = gridToVertex(b.getX(), b.getY(), width);
 
@@ -100,16 +109,16 @@ public class Maze extends PrimMST {
             System.out.print("|");
             for (int x = 0; x < width - 1; x++) {
                 System.out.print("   ");
-                Cell currentCell = new Cell(x, y);
-                Cell rightCell = new Cell(x + 1, y);
+                Point currentCell = new Point(x, y);
+                Point rightCell = new Point(x + 1, y);
                 System.out.print(isPath(currentCell, rightCell) ? " " : "|");
             }
             System.out.println("   |");
 
             // Print horizontal walls
             for (int x = 0; x < width; x++) {
-                Cell currentCell = new Cell(x, y);
-                Cell bottomCell = new Cell(x, y + 1);
+                Point currentCell = new Point(x, y);
+                Point bottomCell = new Point(x, y + 1);
                 System.out.print(y < height - 1 && isPath(currentCell, bottomCell) ? "+   " : "+---");
             }
             System.out.println("+");
