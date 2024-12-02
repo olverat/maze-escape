@@ -1,7 +1,9 @@
 package maze;
 
 import java.awt.Point;
-import java.util.*;
+import java.util.ArrayDeque;
+import java.util.Deque;
+import java.util.Stack;
 
 /**
  * This abstract class provides a blueprint for maze-solving algorithms.
@@ -12,8 +14,8 @@ abstract class AbstractSolveMaze {
     /**
      * Checks if a given point is outside the boundaries of the maze.
      *
-     * @param x          The x-coordinate of the point.
-     * @param y          The y-coordinate of the point.
+     * @param x The x-coordinate of the point.
+     * @param y The y-coordinate of the point.
      * @param colNumber The number of columns in the maze.
      * @param rowNumber The number of rows in the maze.
      * @return True if the point is out of bounds, false otherwise.
@@ -29,14 +31,16 @@ abstract class AbstractSolveMaze {
      * Abstract method to be implemented by concrete maze-solving algorithms.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param entrance    The entrance point of the maze.
-     * @param exit       The exit point of the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param entrance The entrance point of the maze.
+     * @param exit The exit point of the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return A stack of points representing the solution path.
      */
-    abstract Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit, int colNumber, int rowNumber);
+    abstract Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit,
+            int colNumber, int rowNumber);
 }
+
 
 /**
  * This class implements the Depth-First Search algorithm for maze solving.
@@ -47,14 +51,15 @@ class DepthFirstSearchSolveMaze extends AbstractSolveMaze {
      * Finds an unvisited neighbor of a given point in the maze using Depth-First Search.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param p           The current point.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param p The current point.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return The coordinates of the unvisited neighbor, or null if none found.
      */
-    protected Point aroundPointDepthFirst(Lattice[][] mazeLattice, Point p, int colNumber, int rowNumber) {
+    protected Point aroundPointDepthFirst(Lattice[][] mazeLattice, Point p, int colNumber,
+            int rowNumber) {
         final int[] aroundPoint = {-1, 0, 1, 0, -1}; // Relative coordinates of neighbors
-        for (int i = 0; i < 4; ) {
+        for (int i = 0; i < 4;) {
             int x = p.x + aroundPoint[i];
             int y = p.y + aroundPoint[++i];
             if (!isOutofBorder(x, y, colNumber, rowNumber) && mazeLattice[y][x].isPassable()
@@ -70,14 +75,15 @@ class DepthFirstSearchSolveMaze extends AbstractSolveMaze {
      * Solves the maze using the Depth-First Search algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param entrance    The entrance point of the maze.
-     * @param exit       The exit point of the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param entrance The entrance point of the maze.
+     * @param exit The exit point of the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return A stack of points representing the solution path.
      */
     @Override
-    public Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit, int colNumber, int rowNumber) {
+    public Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit,
+            int colNumber, int rowNumber) {
         pathStack = new Stack<>();
         Deque<Point> pathDeque = new ArrayDeque<>();
         Point judge = new Point(0, 0);
@@ -116,6 +122,7 @@ class DepthFirstSearchSolveMaze extends AbstractSolveMaze {
     }
 }
 
+
 /**
  * This class implements the Breadth-First Search algorithm for maze solving.
  */
@@ -125,12 +132,13 @@ class BreadthFirstSearchSolveMaze extends AbstractSolveMaze {
      * Finds all unvisited neighbors of a given point in the maze using Breadth-First Search.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param p           The current point.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param p The current point.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return An array of points representing the unvisited neighbors.
      */
-    protected Point[] aroundPointBreadthFirst(Lattice[][] mazeLattice, Point p, int colNumber, int rowNumber) {
+    protected Point[] aroundPointBreadthFirst(Lattice[][] mazeLattice, Point p, int colNumber,
+            int rowNumber) {
         final int[] aroundPoint = {-1, 0, 1, 0, -1}; // Relative coordinates of neighbors
         Point[] point = {null, null, null, null};
         for (int i = 0; i < 4; ++i) {
@@ -149,14 +157,15 @@ class BreadthFirstSearchSolveMaze extends AbstractSolveMaze {
      * Solves the maze using the Breadth-First Search algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param entrance    The entrance point of the maze.
-     * @param exit       The exit point of the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param entrance The entrance point of the maze.
+     * @param exit The exit point of the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return A stack of points representing the solution path.
      */
     @Override
-    public Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit, int colNumber, int rowNumber) {
+    public Stack<Point> solveMaze(Lattice[][] mazeLattice, Point entrance, Point exit,
+            int colNumber, int rowNumber) {
         pathStack = new Stack<>();
         Point judge = new Point(0, 0);
         Deque<Point> pathDeque = new ArrayDeque<>();
@@ -193,8 +202,8 @@ class BreadthFirstSearchSolveMaze extends AbstractSolveMaze {
         mazeLattice[exit.y][exit.x].setFather(end);
 
         // Construct the path stack by backtracking from the exit
-        for (currentPoint = exit; !currentPoint
-                .equals(judge); currentPoint = mazeLattice[currentPoint.y][currentPoint.x].getFather()) {
+        for (currentPoint = exit; !currentPoint.equals(judge); currentPoint =
+                mazeLattice[currentPoint.y][currentPoint.x].getFather()) {
             pathStack.push(currentPoint);
         }
 
