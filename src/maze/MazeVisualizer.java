@@ -62,10 +62,12 @@ public class MazeVisualizer extends JFrame {
         mazeControls.setMaximumSize(new Dimension(300, mazeControls.getPreferredSize().height));
 
         // algorithmControls.setPreferredSize(new Dimension(300, 100));
-        algorithmControls.setMaximumSize(new Dimension(300, algorithmControls.getPreferredSize().height));
+        algorithmControls
+                .setMaximumSize(new Dimension(300, algorithmControls.getPreferredSize().height));
 
         // animationControls.setPreferredSize(new Dimension(300, 100));
-        animationControls.setMaximumSize(new Dimension(300, animationControls.getPreferredSize().height));
+        animationControls
+                .setMaximumSize(new Dimension(300, animationControls.getPreferredSize().height));
 
         /******************************************
          * Add components to our panels
@@ -216,26 +218,24 @@ public class MazeVisualizer extends JFrame {
                 if (currentCell.getX() < width - 1) {
                     Point rightCell = new Point(currentCell.getX() + 1, currentCell.getY());
                     if (!maze.isPath(currentCell, rightCell)) {
-                        g2d.drawLine(cellX + cellWidth, cellY,
-                                cellX + cellWidth, cellY + cellHeight);
+                        g2d.drawLine(cellX + cellWidth, cellY, cellX + cellWidth,
+                                cellY + cellHeight);
                     }
                 } else {
                     // Always draw right border wall
-                    g2d.drawLine(cellX + cellWidth, cellY,
-                            cellX + cellWidth, cellY + cellHeight);
+                    g2d.drawLine(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
                 }
 
                 // Draw bottom wall if needed
                 if (currentCell.getY() < height - 1) {
                     Point bottomCell = new Point(currentCell.getX(), currentCell.getY() + 1);
                     if (!maze.isPath(currentCell, bottomCell)) {
-                        g2d.drawLine(cellX, cellY + cellHeight,
-                                cellX + cellWidth, cellY + cellHeight);
+                        g2d.drawLine(cellX, cellY + cellHeight, cellX + cellWidth,
+                                cellY + cellHeight);
                     }
                 } else {
                     // Always draw bottom border wall
-                    g2d.drawLine(cellX, cellY + cellHeight,
-                            cellX + cellWidth, cellY + cellHeight);
+                    g2d.drawLine(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
                 }
 
                 // Always draw left border wall for first column
@@ -260,8 +260,7 @@ public class MazeVisualizer extends JFrame {
         // End point (bottom-right)
         g2d.setColor(Color.RED);
         g2d.fillOval((width - 1) * cellWidth + cellWidth / 4,
-                (height - 1) * cellHeight + cellHeight / 4,
-                markerSize, markerSize);
+                (height - 1) * cellHeight + cellHeight / 4, markerSize, markerSize);
     }
 }
 
@@ -279,6 +278,7 @@ public class MazeVisualizer extends JFrame {
 // return new Dimension(600, 600); // Default size for maze
 // }
 // }
+
 
 // Custom panel that paints grid lines
 class DebugPanel extends JPanel {
@@ -298,8 +298,8 @@ class DebugPanel extends JPanel {
 
         // Set up the stroke for grid lines
         g2d.setColor(Color.RED);
-        g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT,
-                BasicStroke.JOIN_MITER, 10.0f, new float[] { 5.0f }, 0.0f));
+        g2d.setStroke(new BasicStroke(1.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_MITER, 10.0f,
+                new float[] {5.0f}, 0.0f));
 
         // Draw vertical lines
         int totalWidth = getWidth();

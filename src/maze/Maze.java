@@ -17,7 +17,7 @@ public class Maze extends PrimMST {
     private List<Edge> mazePaths;
 
     public Maze(EdgeWeightedGraph G, int width, int height) {
-        // Call parent (PrimMST) constructor to build the minimum-spanning tree 
+        // Call parent (PrimMST) constructor to build the minimum-spanning tree
         super(G);
 
         this.width = width;
@@ -119,7 +119,8 @@ public class Maze extends PrimMST {
             for (int x = 0; x < width; x++) {
                 Point currentCell = new Point(x, y);
                 Point bottomCell = new Point(x, y + 1);
-                System.out.print(y < height - 1 && isPath(currentCell, bottomCell) ? "+   " : "+---");
+                System.out
+                        .print(y < height - 1 && isPath(currentCell, bottomCell) ? "+   " : "+---");
             }
             System.out.println("+");
         }
