@@ -2,6 +2,7 @@ package maze;
 
 import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
+
 import edu.princeton.cs.algs4.EdgeWeightedGraph;
 
 public class MazeApp implements Runnable {
