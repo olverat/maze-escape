@@ -233,42 +233,42 @@ public class MazeVisualizer extends JFrame {
         // Draw all walls first
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
-                Point currentCell = new Point(x, y);
-                int cellX = currentCell.getX() * cellWidth;
-                int cellY = currentCell.getY() * cellHeight;
+                Point currentPoint = new Point(x, y);
+                int pointX = currentPoint.getX() * cellWidth;
+                int pointY = currentPoint.getY() * cellHeight;
 
                 // Draw right wall if needed
-                if (currentCell.getX() < width - 1) {
-                    Point rightCell = new Point(currentCell.getX() + 1, currentCell.getY());
-                    if (!maze.isPath(currentCell, rightCell)) {
-                        g2d.drawLine(cellX + cellWidth, cellY, cellX + cellWidth,
-                                cellY + cellHeight);
+                if (currentPoint.getX() < width - 1) {
+                    Point pointToTheRight = new Point(currentPoint.getX() + 1, currentPoint.getY());
+                    if (!maze.isPath(currentPoint, pointToTheRight)) {
+                        g2d.drawLine(pointX + cellWidth, pointY, pointX + cellWidth,
+                                pointY + cellHeight);
                     }
                 } else {
                     // Always draw right border wall
-                    g2d.drawLine(cellX + cellWidth, cellY, cellX + cellWidth, cellY + cellHeight);
+                    g2d.drawLine(pointX + cellWidth, pointY, pointX + cellWidth, pointY + cellHeight);
                 }
 
                 // Draw bottom wall if needed
-                if (currentCell.getY() < height - 1) {
-                    Point bottomCell = new Point(currentCell.getX(), currentCell.getY() + 1);
-                    if (!maze.isPath(currentCell, bottomCell)) {
-                        g2d.drawLine(cellX, cellY + cellHeight, cellX + cellWidth,
-                                cellY + cellHeight);
+                if (currentPoint.getY() < height - 1) {
+                    Point bottomCell = new Point(currentPoint.getX(), currentPoint.getY() + 1);
+                    if (!maze.isPath(currentPoint, bottomCell)) {
+                        g2d.drawLine(pointX, pointY + cellHeight, pointX + cellWidth,
+                                pointY + cellHeight);
                     }
                 } else {
                     // Always draw bottom border wall
-                    g2d.drawLine(cellX, cellY + cellHeight, cellX + cellWidth, cellY + cellHeight);
+                    g2d.drawLine(pointX, pointY + cellHeight, pointX + cellWidth, pointY + cellHeight);
                 }
 
                 // Always draw left border wall for first column
-                if (currentCell.getX() == 0) {
-                    g2d.drawLine(cellX, cellY, cellX, cellY + cellHeight);
+                if (currentPoint.getX() == 0) {
+                    g2d.drawLine(pointX, pointY, pointX, pointY + cellHeight);
                 }
 
                 // Always draw top border wall for first row
-                if (currentCell.getY() == 0) {
-                    g2d.drawLine(cellX, cellY, cellX + cellWidth, cellY);
+                if (currentPoint.getY() == 0) {
+                    g2d.drawLine(pointX, pointY, pointX + cellWidth, pointY);
                 }
             }
         }
