@@ -458,7 +458,7 @@ class Maze extends JPanel {
         setThreadStop();
         Object[] selections = {"lower speed", "low speed", "medium speed", "high speed", "higher speed"};
         Object select = JOptionPane.showInputDialog(null, "Please select the speed of which the ball runs",
-                "Jiang's Maze", JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
+                "Maze Escape", JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
                 case "lower speed":
