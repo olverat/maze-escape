@@ -24,30 +24,97 @@ import javax.swing.JRadioButton;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+/**
+ * This class is a GUI Swing application that visualizes the solving of a maze using different
+ * solving techniques (algorithms).
+ * 
+ * Note: The main JFrame for this application uses a BorderLayout (see
+ * https://docs.oracle.com/javase/tutorial/uiswing/layout/border.html), with JPanels nested inside,
+ * each with their own individual layouts.
+ */
 public class MazeVisualizer extends JFrame {
     private JPanel mazePanel; // Main maze visualization panel - gets all extra space
-    private JPanel controlPanel;
-    private JPanel mazeControls;
-    private JPanel algorithmControls;
-    private JPanel animationControls;
+    private JPanel controlPanel; // The sidebar panel for controlling maze creation and animations.
+                                 // This will be a JPanel that holds other JPanels
+    private JPanel mazeControls; // Sub-panel to configure maze creation
+    private JPanel algorithmControls; // Sub-panel to select the maze solving method
+    private JPanel animationControls; // Sub-panel to playback the animation in real-time
     private JPanel eastRegion; // Dummy panel for right margin
     private JPanel statusBar; // Optional: Status bar at bottom
-    private Maze maze;
+    private Maze maze; // The maze object to be drawn to the screen
 
     public MazeVisualizer(Maze maze) {
         this.maze = maze;
 
-        // Set the layout for this frame
+        // Set the layout for this JFrame
         setLayout(new BorderLayout(10, 10)); // 10px gaps between regions
 
-        initializeComponents();
-        layoutComponents();
-        // toggleOutlines();
+        // Create all necessary JPanels
+        initializePanels();
 
-        /******************************************
-         * Set panel layouts and positioning
-         ******************************************/
+        // Setup layout code for all panels
+        layoutPanels();
 
+        // Add components to the panels
+        createMazeControls();
+        createAlgorithmControls();
+        createAnimationControls();
+
+        // After components are initialized and created, add them to the main JFrame
+        // Maze visualizer
+        add(mazePanel, BorderLayout.CENTER);
+
+        // Control panel for configuring the maze and solving
+        // This code adds spacing between panels
+        controlPanel.add(Box.createVerticalStrut(10));
+        controlPanel.add(mazeControls);
+        controlPanel.add(Box.createVerticalStrut(20));
+        controlPanel.add(algorithmControls);
+        controlPanel.add(Box.createVerticalStrut(20));
+        controlPanel.add(animationControls);
+        controlPanel.add(Box.createVerticalGlue()); // Push everything up
+
+        // Add it to the main JFrame
+        add(controlPanel, BorderLayout.WEST);
+
+        // Status bar at the bottom to describe what our program is currently doing
+        statusBar.add(new JLabel("Status: Ready"));
+        add(statusBar, BorderLayout.SOUTH);
+
+        // Dummy panel for right margin
+        add(eastRegion, BorderLayout.EAST);
+    }
+
+    private void initializePanels() {
+        // Our mazePanel will be a custom JPanel with its paintComponent method overridden for
+        // drawing.
+        mazePanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                // Your maze rendering code here
+                drawMaze(g);
+            }
+
+            @Override
+            public Dimension getPreferredSize() {
+                return new Dimension(600, 600); // Default size for maze
+            }
+        };
+
+        controlPanel = new JPanel();
+        animationControls = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        algorithmControls = new JPanel(new GridLayout(0, 1, 0, 5)); // vertical grid
+        mazeControls = new JPanel(new GridBagLayout()); // For label alignment
+        // mazeControls = new DebugPanel(new GridBagLayout());
+        eastRegion = new JPanel();
+        statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
+    }
+
+    /**
+     * Sets layout related code for all involved JPanels
+     */
+    private void layoutPanels() {
         // Use BoxLayout for vertical stacking of control elements
         controlPanel.setLayout(new BoxLayout(controlPanel, BoxLayout.Y_AXIS));
 
@@ -68,12 +135,12 @@ public class MazeVisualizer extends JFrame {
         // animationControls.setPreferredSize(new Dimension(300, 100));
         animationControls
                 .setMaximumSize(new Dimension(300, animationControls.getPreferredSize().height));
+    }
 
-        /******************************************
-         * Add components to our panels
-         ******************************************/
-
-        // Maze controls
+    /**
+     * Adds the necessary components to the maze controls JPanel
+     */
+    private void createMazeControls() {
         mazeControls.setBorder(BorderFactory.createTitledBorder("Generate Maze"));
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.anchor = GridBagConstraints.WEST; // Left-align components
@@ -118,8 +185,12 @@ public class MazeVisualizer extends JFrame {
         gbc.anchor = GridBagConstraints.CENTER; // Center in the spanned cells
         JButton generateMazeBtn = new JButton("Generate Maze!");
         mazeControls.add(generateMazeBtn, gbc);
+    }
 
-        // Algorithm selection group
+    /**
+     * Adds the necessary components to the algorithm controls JPanel
+     */
+    private void createAlgorithmControls() {
         algorithmControls.setBorder(BorderFactory.createTitledBorder("Maze Solver Technique"));
         ButtonGroup algorithmGroup = new ButtonGroup();
         JRadioButton dfsButton = new JRadioButton("DFS");
@@ -130,72 +201,24 @@ public class MazeVisualizer extends JFrame {
         algorithmControls.add(dfsButton);
         algorithmControls.add(bfsButton);
         algorithmControls.add(solveMazeBtn);
+    }
 
+    /**
+     * Adds the necessary components to the animation controls JPanel
+     */
+    private void createAnimationControls() {
         // Animation controls group
         animationControls.setBorder(BorderFactory.createTitledBorder("Animation Controls"));
         animationControls.add(new JButton("⏮"));
         animationControls.add(new JButton("⏯"));
         animationControls.add(new JButton("⏭"));
-
-        // TODO: Arrow increment buttons for maze size fields
-
-        /******************************************
-         * Add panels to main layout
-         ******************************************/
-        add(mazePanel, BorderLayout.CENTER);
-
-        // Add all control groups to control panel
-        controlPanel.add(Box.createVerticalStrut(10));
-        controlPanel.add(mazeControls);
-        controlPanel.add(Box.createVerticalStrut(20));
-        controlPanel.add(algorithmControls);
-        controlPanel.add(Box.createVerticalStrut(20));
-        controlPanel.add(animationControls);
-        controlPanel.add(Box.createVerticalGlue()); // Push everything up
-
-        // Add control panel to main frame
-        add(controlPanel, BorderLayout.WEST);
-
-        add(eastRegion, BorderLayout.EAST);
-
-        statusBar.add(new JLabel("Status: Ready"));
-        add(statusBar, BorderLayout.SOUTH);
     }
 
-    private void initializeComponents() {
-        mazePanel = new JPanel() {
-            @Override
-            protected void paintComponent(Graphics g) {
-                super.paintComponent(g);
-                // Your maze rendering code here
-                drawMaze(g);
-            }
-
-            @Override
-            public Dimension getPreferredSize() {
-                return new Dimension(600, 600); // Default size for maze
-            }
-        };
-
-        controlPanel = new JPanel();
-        animationControls = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        algorithmControls = new JPanel(new GridLayout(0, 1, 0, 5)); // vertical grid
-        mazeControls = new JPanel(new GridBagLayout()); // For label alignment
-        // mazeControls = new DebugPanel(new GridBagLayout());
-        eastRegion = new JPanel();
-        statusBar = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    }
-
-    private void layoutComponents() {
-        // TODO: Add all layout related code here
-    }
-
-    private void toggleOutlines() {
-        mazePanel.setBorder(new LineBorder(Color.GREEN, 2));
-        controlPanel.setBorder(new LineBorder(Color.BLUE, 2)); // Blue WEST outline
-        eastRegion.setBorder(new LineBorder(Color.MAGENTA, 2)); // Magenta EAST outline
-    }
-
+    /**
+     * Draws a Maze to the screen.
+     * 
+     * @param g - The Graphics object for this JPanel used for drawing to the screen.
+     */
     private void drawMaze(Graphics g) {
         Graphics2D g2d = (Graphics2D) g;
         int width = maze.getWidth();
@@ -262,25 +285,17 @@ public class MazeVisualizer extends JFrame {
         g2d.fillOval((width - 1) * cellWidth + cellWidth / 4,
                 (height - 1) * cellHeight + cellHeight / 4, markerSize, markerSize);
     }
+
+    // For debugging (can ignore): shows outlines on JPanels
+    private void toggleOutlines() {
+        mazePanel.setBorder(new LineBorder(Color.GREEN, 2));
+        controlPanel.setBorder(new LineBorder(Color.BLUE, 2)); // Blue WEST outline
+        eastRegion.setBorder(new LineBorder(Color.MAGENTA, 2)); // Magenta EAST outline
+    }
 }
 
-// Custom panel for maze visualization
-// class MazePanel extends JPanel {
-// @Override
-// protected void paintComponent(Graphics g) {
-// super.paintComponent(g);
-// // Your maze rendering code here
 
-// }
-
-// @Override
-// public Dimension getPreferredSize() {
-// return new Dimension(600, 600); // Default size for maze
-// }
-// }
-
-
-// Custom panel that paints grid lines
+// Custom panel that paints grid lines for debugging purposes (can ignore)
 class DebugPanel extends JPanel {
     public DebugPanel(GridBagLayout l) {
         super(l);
