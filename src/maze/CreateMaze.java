@@ -14,8 +14,8 @@ abstract class AbstractCreateMaze {
     /**
      * Checks if a given point is outside the boundaries of the maze.
      *
-     * @param x          The x-coordinate of the point.
-     * @param y          The y-coordinate of the point.
+     * @param x The x-coordinate of the point.
+     * @param y The y-coordinate of the point.
      * @param colNumber The number of columns in the maze.
      * @param rowNumber The number of rows in the maze.
      * @return True if the point is out of bounds, false otherwise.
@@ -31,11 +31,12 @@ abstract class AbstractCreateMaze {
      * Abstract method to be implemented by concrete maze creation algorithms.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      */
     abstract void createMaze(Lattice[][] mazeLattice, int colNumber, int rowNumber);
 }
+
 
 /**
  * This class implements the Depth-First Search algorithm for maze creation.
@@ -46,15 +47,15 @@ class DepthFirstSearchCreateMaze extends AbstractCreateMaze {
      * Finds a random unvisited neighbor of a given point in the maze.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param p           The current point.
-     * @param s           The stack used to track the path.
-     * @param rand        The random number generator.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param p The current point.
+     * @param s The stack used to track the path.
+     * @param rand The random number generator.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      * @return The coordinates of the unvisited neighbor, or null if none found.
      */
-    protected Point ArroundPoint(Lattice[][] mazeLattice, Point p, Stack<Point> s, Random rand, int colNumber,
-                                 int rowNumber) {
+    protected Point ArroundPoint(Lattice[][] mazeLattice, Point p, Stack<Point> s, Random rand,
+            int colNumber, int rowNumber) {
         final int[] arroundPoint = {-2, 0, 2, 0, -2}; // Relative coordinates of neighbors
         int r = rand.nextInt(4);
         for (int i = 0; i < 4; ++i) {
@@ -64,7 +65,8 @@ class DepthFirstSearchCreateMaze extends AbstractCreateMaze {
             ++r;
             if (!isOutofBorder(x, y, colNumber, rowNumber) && !mazeLattice[y][x].isPassable()) {
                 mazeLattice[y][x].setPassable(true);
-                mazeLattice[p.y + arroundPoint[j + 1] / 2][p.x + arroundPoint[j] / 2].setPassable(true);
+                mazeLattice[p.y + arroundPoint[j + 1] / 2][p.x + arroundPoint[j] / 2]
+                        .setPassable(true);
                 return new Point(x, y);
             }
         }
@@ -75,19 +77,22 @@ class DepthFirstSearchCreateMaze extends AbstractCreateMaze {
      * Creates a maze using the Depth-First Search algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      */
     @Override
     public void createMaze(Lattice[][] mazeLattice, int colNumber, int rowNumber) {
         Random rand = new Random();
-        Point currentPoint = new Point(2 * rand.nextInt(colNumber / 2) + 1, 2 * rand.nextInt(rowNumber / 2) + 1);
+        Point currentPoint =
+                new Point(2 * rand.nextInt(colNumber / 2) + 1, 2 * rand.nextInt(rowNumber / 2) + 1);
         mazeLattice[currentPoint.y][currentPoint.x].setPassable(true);
         Stack<Point> pathStack = new Stack<>();
         pathStack.push(currentPoint);
-        currentPoint = ArroundPoint(mazeLattice, currentPoint, pathStack, rand, colNumber, rowNumber);
+        currentPoint =
+                ArroundPoint(mazeLattice, currentPoint, pathStack, rand, colNumber, rowNumber);
         while (true) {
-            Point p = ArroundPoint(mazeLattice, currentPoint, pathStack, rand, colNumber, rowNumber);
+            Point p =
+                    ArroundPoint(mazeLattice, currentPoint, pathStack, rand, colNumber, rowNumber);
             if (p != null) {
                 pathStack.push(currentPoint);
                 currentPoint = p;
@@ -99,6 +104,7 @@ class DepthFirstSearchCreateMaze extends AbstractCreateMaze {
     }
 }
 
+
 /**
  * This class implements the Randomized Prim's algorithm for maze creation.
  */
@@ -108,15 +114,15 @@ class RandomizedPrimCreateMaze extends AbstractCreateMaze {
      * Adds the walls surrounding a given point to a list.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param p           The current point.
-     * @param list        The list to store the walls.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param p The current point.
+     * @param list The list to store the walls.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      */
-    protected void pushArroundWallToList(Lattice[][] mazeLattice, Point p, List<Point> list, int colNumber,
-                                        int rowNumber) {
+    protected void pushArroundWallToList(Lattice[][] mazeLattice, Point p, List<Point> list,
+            int colNumber, int rowNumber) {
         final int[] arroundWall = {-1, 0, 1, 0, -1}; // Relative coordinates of surrounding walls
-        for (int i = 0; i < 4; ) {
+        for (int i = 0; i < 4;) {
             int x = p.x + arroundWall[i];
             int y = p.y + arroundWall[++i];
             if (!isOutofBorder(x, y, colNumber, rowNumber) && !mazeLattice[y][x].isPassable()) {
@@ -128,7 +134,7 @@ class RandomizedPrimCreateMaze extends AbstractCreateMaze {
     /**
      * Finds an unvisited cell connected to a given wall.
      *
-     * @param wall        The coordinates of the wall.
+     * @param wall The coordinates of the wall.
      * @param mazeLattice The 2D array representing the maze.
      * @return The coordinates of the unvisited cell, or null if none found.
      */
@@ -136,8 +142,10 @@ class RandomizedPrimCreateMaze extends AbstractCreateMaze {
         final int[] arroundWall = {-1, 0, 1, 0, -1}; // Relative coordinates of surrounding cells
         Point p = null;
         for (int i = (wall.y + 1) % 2; i < 2; i += 2) {
-            boolean add = mazeLattice[wall.y + arroundWall[i + 1]][wall.x + arroundWall[i]].isPassable(),
-                    sub = mazeLattice[wall.y - arroundWall[i + 1]][wall.x - arroundWall[i]].isPassable();
+            boolean add =
+                    mazeLattice[wall.y + arroundWall[i + 1]][wall.x + arroundWall[i]].isPassable(),
+                    sub = mazeLattice[wall.y - arroundWall[i + 1]][wall.x - arroundWall[i]]
+                            .isPassable();
             if (add && !sub) {
                 p = new Point(wall.x - arroundWall[i], wall.y - arroundWall[i + 1]);
                 break;
@@ -154,13 +162,14 @@ class RandomizedPrimCreateMaze extends AbstractCreateMaze {
      * Creates a maze using the Randomized Prim's algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      */
     @Override
     public void createMaze(Lattice[][] mazeLattice, int colNumber, int rowNumber) {
         Random rand = new Random();
-        Point currentPoint = new Point(2 * rand.nextInt(colNumber / 2) + 1, 2 * rand.nextInt(rowNumber / 2) + 1);
+        Point currentPoint =
+                new Point(2 * rand.nextInt(colNumber / 2) + 1, 2 * rand.nextInt(rowNumber / 2) + 1);
         mazeLattice[currentPoint.y][currentPoint.x].setPassable(true);
         List<Point> listWall = new LinkedList<>();
         pushArroundWallToList(mazeLattice, currentPoint, listWall, colNumber, rowNumber);
@@ -177,6 +186,7 @@ class RandomizedPrimCreateMaze extends AbstractCreateMaze {
     }
 }
 
+
 /**
  * This class implements the Recursive Division algorithm for maze creation.
  */
@@ -186,9 +196,9 @@ class RecursiveDivisionCreateMaze extends AbstractCreateMaze {
      * Opens a door in a wall between two points.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param p1          The first point.
-     * @param p2          The second point.
-     * @param r           The random number generator.
+     * @param p1 The first point.
+     * @param p2 The second point.
+     * @param r The random number generator.
      */
     protected void openAdoor(Lattice[][] mazeLattice, Point p1, Point p2, Random r) {
         if (p1.y == p2.y && p1.x == p2.x) {
@@ -208,12 +218,13 @@ class RecursiveDivisionCreateMaze extends AbstractCreateMaze {
      * Recursively creates a maze using the Recursive Division algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param start       The starting point of the current section.
-     * @param height      The height of the current section.
-     * @param width       The width of the current section.
-     * @param rand        The random number generator.
+     * @param start The starting point of the current section.
+     * @param height The height of the current section.
+     * @param width The width of the current section.
+     * @param rand The random number generator.
      */
-    private void recursiveCreateMaze(Lattice[][] mazeLattice, Point start, int height, int width, Random rand) {
+    private void recursiveCreateMaze(Lattice[][] mazeLattice, Point start, int height, int width,
+            Random rand) {
         if (height <= 2 || width <= 2)
             return;
         // Draw a horizontal wall
@@ -228,39 +239,54 @@ class RecursiveDivisionCreateMaze extends AbstractCreateMaze {
         int opendoor = rand.nextInt(4) + 1;
         switch (opendoor) {
             case 1:
-                openAdoor(mazeLattice, new Point(drawy, drawx + 1), new Point(drawy, start.y + height - 1), rand);// 2
-                openAdoor(mazeLattice, new Point(drawy + 1, drawx), new Point(start.x + width - 1, drawx), rand);// 3
-                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1), rand);// 4
+                openAdoor(mazeLattice, new Point(drawy, drawx + 1),
+                        new Point(drawy, start.y + height - 1), rand);// 2
+                openAdoor(mazeLattice, new Point(drawy + 1, drawx),
+                        new Point(start.x + width - 1, drawx), rand);// 3
+                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1),
+                        rand);// 4
                 break;
             case 2:
-                openAdoor(mazeLattice, new Point(drawy + 1, drawx), new Point(start.x + width - 1, drawx), rand);// 3
-                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1), rand);// 4
-                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx), rand);// 1
+                openAdoor(mazeLattice, new Point(drawy + 1, drawx),
+                        new Point(start.x + width - 1, drawx), rand);// 3
+                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1),
+                        rand);// 4
+                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx),
+                        rand);// 1
                 break;
             case 3:
-                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1), rand);// 4
-                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx), rand);// 1
-                openAdoor(mazeLattice, new Point(drawy, drawx + 1), new Point(drawy, start.y + height - 1), rand);// 2
+                openAdoor(mazeLattice, new Point(drawy, start.y), new Point(drawy, drawx - 1),
+                        rand);// 4
+                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx),
+                        rand);// 1
+                openAdoor(mazeLattice, new Point(drawy, drawx + 1),
+                        new Point(drawy, start.y + height - 1), rand);// 2
                 break;
             case 4:
-                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx), rand);// 1
-                openAdoor(mazeLattice, new Point(drawy, drawx + 1), new Point(drawy, start.y + height - 1), rand);// 2
-                openAdoor(mazeLattice, new Point(drawy + 1, drawx), new Point(start.x + width - 1, drawx), rand);// 3
+                openAdoor(mazeLattice, new Point(start.x, drawx), new Point(drawy - 1, drawx),
+                        rand);// 1
+                openAdoor(mazeLattice, new Point(drawy, drawx + 1),
+                        new Point(drawy, start.y + height - 1), rand);// 2
+                openAdoor(mazeLattice, new Point(drawy + 1, drawx),
+                        new Point(start.x + width - 1, drawx), rand);// 3
                 break;
         }
         // Recursively create mazes in the four sections
         recursiveCreateMaze(mazeLattice, start, drawx - start.y, drawy - start.x, rand);
-        recursiveCreateMaze(mazeLattice, new Point(drawy + 1, start.y), drawx - start.y, width - drawy + start.x - 1, rand);
-        recursiveCreateMaze(mazeLattice, new Point(start.x, drawx + 1), height - drawx + start.y - 1, drawy - start.x, rand);
-        recursiveCreateMaze(mazeLattice, new Point(drawy + 1, drawx + 1), height - drawx + start.y - 1, width - drawy + start.x - 1, rand);
+        recursiveCreateMaze(mazeLattice, new Point(drawy + 1, start.y), drawx - start.y,
+                width - drawy + start.x - 1, rand);
+        recursiveCreateMaze(mazeLattice, new Point(start.x, drawx + 1),
+                height - drawx + start.y - 1, drawy - start.x, rand);
+        recursiveCreateMaze(mazeLattice, new Point(drawy + 1, drawx + 1),
+                height - drawx + start.y - 1, width - drawy + start.x - 1, rand);
     }
 
     /**
      * Creates a maze using the Recursive Division algorithm.
      *
      * @param mazeLattice The 2D array representing the maze.
-     * @param colNumber   The number of columns in the maze.
-     * @param rowNumber   The number of rows in the maze.
+     * @param colNumber The number of columns in the maze.
+     * @param rowNumber The number of rows in the maze.
      */
     @Override
     public void createMaze(Lattice[][] mazeLattice, int colNumber, int rowNumber) {

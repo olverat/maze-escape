@@ -1,23 +1,39 @@
 package maze;
 
-import java.awt.*;
-import java.awt.event.*;
-
-import javax.swing.*;
+import java.awt.BorderLayout;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Panel;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import javax.swing.ButtonGroup;
+import javax.swing.JButton;
+import javax.swing.JFormattedTextField;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JRadioButton;
+import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.EtchedBorder;
 
 /**
- * This class represents the main frame of the maze game application.
- * It contains the maze panel, control buttons, and settings for the game.
+ * This class represents the main frame of the maze game application. It contains the maze panel,
+ * control buttons, and settings for the game.
  */
 class MazeFrame extends JFrame {
-    private static final char DEPTH_FIRST_SEARCH_SOLVE_MAZE = 0; // Constant for Depth-First Search solving
-    private static final char BREADTH_FIRST_SEARCH_SOLVE_MAZE = 1; // Constant for Breadth-First Search solving
+    private static final char DEPTH_FIRST_SEARCH_SOLVE_MAZE = 0; // Constant for Depth-First Search
+                                                                 // solving
+    private static final char BREADTH_FIRST_SEARCH_SOLVE_MAZE = 1; // Constant for Breadth-First
+                                                                   // Search solving
     private char solveMaze = 0; // Current solving algorithm
-    private static final char DEPTH_FIRST_SEARCH_CREATE_MAZE = 0; // Constant for Depth-First Search creation
-    private static final char RANDOMIZED_PRIM_CREATE_MAZE = 1; // Constant for Randomized Prim's creation
-    private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division creation
+    private static final char DEPTH_FIRST_SEARCH_CREATE_MAZE = 0; // Constant for Depth-First Search
+                                                                  // creation
+    private static final char RANDOMIZED_PRIM_CREATE_MAZE = 1; // Constant for Randomized Prim's
+                                                               // creation
+    private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division
+                                                                  // creation
     private char createMaze = 0; // Current creation algorithm
 
     private JPanel contentPane; // Main content pane of the frame
@@ -34,7 +50,7 @@ class MazeFrame extends JFrame {
     private JButton button_2;
     private JButton button_3;
     private JButton prompt;
-    
+
     private JPanel panel_3;
     private JLabel label;
     private JPanel panel_4;
@@ -182,7 +198,8 @@ class MazeFrame extends JFrame {
         spinner.setModel(new SpinnerNumberModel(11, 11, 99, 2));
         JSpinner.NumberEditor editor = new JSpinner.NumberEditor(spinner, "0");
         spinner.setEditor(editor);
-        JFormattedTextField textField = ((JSpinner.NumberEditor) spinner.getEditor()).getTextField();
+        JFormattedTextField textField =
+                ((JSpinner.NumberEditor) spinner.getEditor()).getTextField();
         textField.setEditable(false);
         panel_8.add(spinner);
 
@@ -263,7 +280,8 @@ class MazeFrame extends JFrame {
         panel_16.add(rdbtnDepthFirstSearch);
 
         rdbtnBreadthFirstSearch = new JRadioButton("Breadth First Search Algorithm");
-        rdbtnBreadthFirstSearch.addActionListener(e -> setSolveMaze(BREADTH_FIRST_SEARCH_SOLVE_MAZE));
+        rdbtnBreadthFirstSearch
+                .addActionListener(e -> setSolveMaze(BREADTH_FIRST_SEARCH_SOLVE_MAZE));
         panel_16.add(rdbtnBreadthFirstSearch);
 
         panel_2 = new JPanel();

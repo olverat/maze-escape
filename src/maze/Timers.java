@@ -1,11 +1,12 @@
 package maze;
 
-import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import javax.swing.JTextField;
+import javax.swing.Timer;
 
 /**
  * This class extends JTextField to create a timer display that updates every second.

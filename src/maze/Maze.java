@@ -1,20 +1,27 @@
 package maze;
 
-import java.awt.*;
+import java.awt.BasicStroke;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Point;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.Stack;
-
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
 
 /**
- * This class represents the maze game panel. It handles maze creation,
- * user interaction, and game logic.
+ * This class represents the maze game panel. It handles maze creation, user interaction, and game
+ * logic.
  */
 class Maze extends JPanel {
     private Point entrance; // Entrance coordinates
@@ -31,12 +38,17 @@ class Maze extends JPanel {
     private boolean computerDo; // Flag to indicate if the computer is solving the maze
     private Thread thread; // Thread for computer solving
     private int stepNumber; // Number of steps taken by the user
-    private static final char DEPTH_FIRST_SEARCH_SOLVE_MAZE = 0; // Constant for Depth-First Search solving
-    private static final char BREADTH_FIRST_SEARCH_SOLVE_MAZE = 1; // Constant for Breadth-First Search solving
+    private static final char DEPTH_FIRST_SEARCH_SOLVE_MAZE = 0; // Constant for Depth-First Search
+                                                                 // solving
+    private static final char BREADTH_FIRST_SEARCH_SOLVE_MAZE = 1; // Constant for Breadth-First
+                                                                   // Search solving
     private char solveMaze = DEPTH_FIRST_SEARCH_SOLVE_MAZE; // Current solving algorithm
-    private static final char DEPTH_FIRST_SEARCH_CREATE_MAZE = 0; // Constant for Depth-First Search creation
-    private static final char RANDOMIZED_PRIM_CREATE_MAZE = 1; // Constant for Randomized Prim's creation
-    private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division creation
+    private static final char DEPTH_FIRST_SEARCH_CREATE_MAZE = 0; // Constant for Depth-First Search
+                                                                  // creation
+    private static final char RANDOMIZED_PRIM_CREATE_MAZE = 1; // Constant for Randomized Prim's
+                                                               // creation
+    private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division
+                                                                  // creation
     private char createMaze = DEPTH_FIRST_SEARCH_CREATE_MAZE; // Current creation algorithm
     private boolean promptSolveMaze; // Flag to indicate if the solution path should be displayed
 
@@ -139,10 +151,9 @@ class Maze extends JPanel {
      * Displays a game over message with the time and steps taken.
      */
     private void gameOverMessage() {
-        JOptionPane.showMessageDialog(null,
-                "Congratulations on getting out of the maze!\n" + "Time you have used to go out of the maze is: "
-                        + timeText.getText() + "\nThe number of the steps you have used to go out of the maze is: "
-                        + stepNumber,
+        JOptionPane.showMessageDialog(null, "Congratulations on getting out of the maze!\n"
+                + "Time you have used to go out of the maze is: " + timeText.getText()
+                + "\nThe number of the steps you have used to go out of the maze is: " + stepNumber,
                 "Game Over", JOptionPane.INFORMATION_MESSAGE);
     }
 
@@ -171,20 +182,24 @@ class Maze extends JPanel {
         // Draw maze lattice
         for (int i = 0; i < getRowNumber() + 2; ++i)
             for (int j = 0; j < getColNumber() + 2; ++j) {
-                g.drawRect((j + 1) * latticeWidth, (i + 1) * latticeWidth + 30, latticeWidth, latticeWidth);
+                g.drawRect((j + 1) * latticeWidth, (i + 1) * latticeWidth + 30, latticeWidth,
+                        latticeWidth);
                 g.setColor(mazeLattice[i][j].isPassable() ? Color.WHITE : Color.BLACK);
-                g.fillRect((j + 1) * latticeWidth, (i + 1) * latticeWidth + 30, latticeWidth, latticeWidth);
+                g.fillRect((j + 1) * latticeWidth, (i + 1) * latticeWidth + 30, latticeWidth,
+                        latticeWidth);
             }
 
         // Draw exit
         g.setColor(Color.RED);
-        g.fillRect((getColNumber() + 2) * latticeWidth, (getRowNumber() + 1) * latticeWidth + 30, latticeWidth,
-                latticeWidth);
+        g.fillRect((getColNumber() + 2) * latticeWidth, (getRowNumber() + 1) * latticeWidth + 30,
+                latticeWidth, latticeWidth);
 
         // Draw ball
         g.setColor(ball.getColor());
-        g.drawOval((ball.getX() + 1) * latticeWidth, (ball.getY() + 1) * latticeWidth + 30, latticeWidth, latticeWidth);
-        g.fillOval((ball.getX() + 1) * latticeWidth, (ball.getY() + 1) * latticeWidth + 30, latticeWidth, latticeWidth);
+        g.drawOval((ball.getX() + 1) * latticeWidth, (ball.getY() + 1) * latticeWidth + 30,
+                latticeWidth, latticeWidth);
+        g.fillOval((ball.getX() + 1) * latticeWidth, (ball.getY() + 1) * latticeWidth + 30,
+                latticeWidth, latticeWidth);
 
         // Draw solution path if prompted
         if (isPromptSolveMaze()) {
@@ -352,7 +367,8 @@ class Maze extends JPanel {
             default:
                 return null;
         }
-        return a.solveMaze(mazeLattice, new Point(ball.getX(), ball.getY()), getExit(), getColNumber(), getRowNumber());
+        return a.solveMaze(mazeLattice, new Point(ball.getX(), ball.getY()), getExit(),
+                getColNumber(), getRowNumber());
     }
 
     /**
@@ -389,8 +405,9 @@ class Maze extends JPanel {
         ((Timers) getTimeText()).stop();
         int time;
         Object[] selections = {"forever", "10s", "5s", "3s", "1s"};
-        Object select = JOptionPane.showInputDialog(null, "Please select the speed of which the ball runs",
-                "Maze Escape", JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
+        Object select = JOptionPane.showInputDialog(null,
+                "Please select the speed of which the ball runs", "Maze Escape",
+                JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
                 case "forever":
@@ -419,8 +436,8 @@ class Maze extends JPanel {
     }
 
     /**
-     * Solves the maze from the starting position using the selected solving algorithm
-     * and animates the ball moving along the solution path.
+     * Solves the maze from the starting position using the selected solving algorithm and animates
+     * the ball moving along the solution path.
      *
      * @param speed The speed of the ball animation in milliseconds per step.
      */
@@ -448,17 +465,19 @@ class Maze extends JPanel {
     }
 
     /**
-     * Solves the maze from the starting position and animates the ball moving
-     * along the solution path at a user-selected speed.
+     * Solves the maze from the starting position and animates the ball moving along the solution
+     * path at a user-selected speed.
      *
      * @return True if the maze is solved, false otherwise.
      */
     public boolean computerSolveMaze() {
         int speed;
         setThreadStop();
-        Object[] selections = {"lower speed", "low speed", "medium speed", "high speed", "higher speed"};
-        Object select = JOptionPane.showInputDialog(null, "Please select the speed of which the ball runs",
-                "Maze Escape", JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
+        Object[] selections =
+                {"lower speed", "low speed", "medium speed", "high speed", "higher speed"};
+        Object select = JOptionPane.showInputDialog(null,
+                "Please select the speed of which the ball runs", "Maze Escape",
+                JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
                 case "lower speed":
