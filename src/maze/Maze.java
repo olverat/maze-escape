@@ -144,7 +144,7 @@ class Maze extends JPanel {
      *
      * @return True if the ball is at the exit, false otherwise.
      */
-    public boolean isWin() {
+    public boolean exitReached() {
         return getExit().x == ball.getX() && getExit().y == ball.getY();
     }
 
@@ -280,12 +280,14 @@ class Maze extends JPanel {
         this.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (!isWin()) {
+                if (!exitReached()) {
                     int c = e.getKeyCode();
                     move(c);
                     repaint();
-                    if (isWin() && !isComputerDo())
-                        gameOverMessage();
+                    // if (isWin() && !isComputerDo())
+                    // gameOverMessage();
+                } else {
+                    gameOverMessage();
                 }
             }
         });
@@ -455,7 +457,7 @@ class Maze extends JPanel {
      */
     private void computerSolveMazeForSpeed(int speed) {
         setComputerDo(true);
-        Point p = isWin() ? getEntrance() : new Point(ball.getX(), ball.getY());
+        Point p = exitReached() ? getEntrance() : new Point(ball.getX(), ball.getY());
         Stack<Point> stack = solveMaze(p);
         resetTimer();
         resetStepNumber();

@@ -139,34 +139,35 @@ class MazeFrame extends JFrame {
 
                 // // If row and col number has not changed
                 // if (maze.getColNumber() == col && maze.getRowNumber() == row) {
-                //     // If algorithm selection has changed 
-                //     if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
-                //         maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
-                //         maze.createMaze();
-                //     } else { // If alg selection has not changed 
-                //         maze.setComputerDo(false);
-                //         maze.resetStepNumber();
-                //         maze.resetTimer();
-                //         maze.setThreadStop();
-                //         maze.setBallPosition(maze.getEntrance());
-                //     }
-
-                //     maze.requestFocus();
-                //     maze.repaint();
-                // } else { // If row and col number has changed
-                //     maze.setColNumber(col);
-                //     maze.setRowNumber(row);
-
-                //     // Checking again if algorithm has changed
-                //     if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
-                //         maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
-                //     }
-                //     maze.createMaze();
-                //     maze.requestFocus();
+                // // If algorithm selection has changed
+                // if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
+                // maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
+                // maze.createMaze();
+                // } else { // If alg selection has not changed
+                // maze.setComputerDo(false);
+                // maze.resetStepNumber();
+                // maze.resetTimer();
+                // maze.setThreadStop();
+                // maze.setBallPosition(maze.getEntrance());
                 // }
 
-                // If values changed, update them 
-                if ((maze.getColNumber() != col || maze.getRowNumber() != row) || (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod())) {
+                // maze.requestFocus();
+                // maze.repaint();
+                // } else { // If row and col number has changed
+                // maze.setColNumber(col);
+                // maze.setRowNumber(row);
+
+                // // Checking again if algorithm has changed
+                // if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
+                // maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
+                // }
+                // maze.createMaze();
+                // maze.requestFocus();
+                // }
+
+                // If values changed, update them
+                if ((maze.getColNumber() != col || maze.getRowNumber() != row)
+                        || (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod())) {
                     maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
                     maze.setColNumber(col);
                     maze.setRowNumber(row);
@@ -347,7 +348,7 @@ class MazeFrame extends JFrame {
         button_1.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (!maze.isWin()) {
+                if (!maze.exitReached()) {
                     if (!isPaused() && maze.isStartTiming() && button_1.isEnabled()) {
                         button_1.setText("Continue");
                         ((Timers) maze.getTimeText()).stop();
@@ -368,7 +369,7 @@ class MazeFrame extends JFrame {
             @Override
             public void mouseClicked(MouseEvent e) {
                 // If the maze is unsolved, show the solution path
-                if (!maze.isWin()) {
+                if (!maze.exitReached()) {
                     maze.computerSolveMazeForBallPosition();
                     maze.requestFocus();
                 }
