@@ -49,8 +49,9 @@ class Maze extends JPanel {
                                                                // creation
     private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division
                                                                   // creation
-    private char createMaze = DEPTH_FIRST_SEARCH_CREATE_MAZE; // Current creation algorithm
-    private boolean promptSolveMaze; // Flag to indicate if the solution path should be displayed
+    private char mazeGenerationMethod = DEPTH_FIRST_SEARCH_CREATE_MAZE; // Current creation
+                                                                        // algorithm
+    private boolean showSolutionPath; // Flag to indicate if the solution path should be displayed
 
     /**
      * Constructs a new Maze object with the specified number of rows and columns.
@@ -108,7 +109,7 @@ class Maze extends JPanel {
      */
     public void init() {
         mazeLattice = new Lattice[getRowNumber() + 2][getColNumber() + 2];
-        setPromptSolveMaze(false);
+        setShowSolutionPath(false);
         setComputerDo(false);
         setThreadStop();
         resetStepNumber();
@@ -202,7 +203,7 @@ class Maze extends JPanel {
                 latticeWidth, latticeWidth);
 
         // Draw solution path if prompted
-        if (isPromptSolveMaze()) {
+        if (isShowSolutionPath()) {
             Stack<Point> pathStack = promptsolveMaze();
             g.setColor(Color.GREEN);
             Point start = pathStack.pop();
@@ -312,7 +313,7 @@ class Maze extends JPanel {
     public void createMaze() {
         init();
         AbstractCreateMaze c;
-        switch (getCreateMaze()) {
+        switch (getMazeGenerationMethod()) {
             case DEPTH_FIRST_SEARCH_CREATE_MAZE:
                 c = new DepthFirstSearchCreateMaze();
                 break;
@@ -381,10 +382,10 @@ class Maze extends JPanel {
             setThread(new Thread(() -> {
                 while (!Thread.interrupted()) {
                     try {
-                        setPromptSolveMaze(true);
+                        setShowSolutionPath(true);
                         repaint();
                         Thread.sleep(time);
-                        setPromptSolveMaze(false);
+                        setShowSolutionPath(false);
                         repaint();
                         setThreadStop();
                     } catch (InterruptedException e) {
@@ -405,8 +406,7 @@ class Maze extends JPanel {
         ((Timers) getTimeText()).stop();
         int time;
         Object[] selections = {"forever", "10s", "5s", "3s", "1s"};
-        Object select = JOptionPane.showInputDialog(null,
-                "Solution Timer", "Maze Escape",
+        Object select = JOptionPane.showInputDialog(null, "Solution Timer", "Maze Escape",
                 JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
@@ -560,8 +560,8 @@ class Maze extends JPanel {
 
     public void setThreadStop() {
         if (getThread() != null) {
-            if (isPromptSolveMaze())
-                setPromptSolveMaze(false);
+            if (isShowSolutionPath())
+                setShowSolutionPath(false);
             thread.interrupt();
             setThread(null);
         }
@@ -603,19 +603,19 @@ class Maze extends JPanel {
         this.solveMaze = solveMaze;
     }
 
-    public char getCreateMaze() {
-        return createMaze;
+    public char getMazeGenerationMethod() {
+        return mazeGenerationMethod;
     }
 
-    public void setCreateMaze(char createMaze) {
-        this.createMaze = createMaze;
+    public void setMazeGenerationMethod(char algorithm) {
+        this.mazeGenerationMethod = algorithm;
     }
 
-    public boolean isPromptSolveMaze() {
-        return promptSolveMaze;
+    public boolean isShowSolutionPath() {
+        return showSolutionPath;
     }
 
-    public void setPromptSolveMaze(boolean promptSolveMaze) {
-        this.promptSolveMaze = promptSolveMaze;
+    public void setShowSolutionPath(boolean show) {
+        this.showSolutionPath = show;
     }
 }

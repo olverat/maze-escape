@@ -35,7 +35,7 @@ class MazeFrame extends JFrame {
                                                                // creation
     private static final char RECURSIVE_DIVISION_CREATE_MAZE = 2; // Constant for Recursive Division
                                                                   // creation
-    private char createMaze = 0; // Current creation algorithm
+    private char mazeGenerationAlgorithm = 0; // Current creation algorithm
 
     private JPanel contentPane; // Main content pane of the frame
     private Maze maze; // The maze panel
@@ -126,35 +126,55 @@ class MazeFrame extends JFrame {
             public void mouseClicked(MouseEvent e) {
                 if (getSolveMaze() != maze.getSolveMaze())
                     maze.setSolveMaze(getSolveMaze());
-                maze.setPromptSolveMaze(false);
+
+                maze.setShowSolutionPath(false);
                 button_1.setEnabled(true);
                 button_2.setEnabled(false);
                 button_3.setEnabled(true);
                 showSolutionButton.setEnabled(true);
+
+                // Generate maze button depends on values from the 2 JSpinners
                 int col = Integer.parseInt(spinner_2.getValue().toString());
                 int row = Integer.parseInt(spinner.getValue().toString());
-                if (maze.getColNumber() == col && maze.getRowNumber() == row) {
-                    if (getCreateMaze() != maze.getCreateMaze()) {
-                        maze.setCreateMaze(getCreateMaze());
-                        maze.createMaze();
-                    } else {
-                        maze.setComputerDo(false);
-                        maze.resetStepNumber();
-                        maze.resetTimer();
-                        maze.setThreadStop();
-                        maze.setBallPosition(maze.getEntrance());
-                    }
-                    maze.requestFocus();
-                    maze.repaint();
-                } else {
+
+                // // If row and col number has not changed
+                // if (maze.getColNumber() == col && maze.getRowNumber() == row) {
+                //     // If algorithm selection has changed 
+                //     if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
+                //         maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
+                //         maze.createMaze();
+                //     } else { // If alg selection has not changed 
+                //         maze.setComputerDo(false);
+                //         maze.resetStepNumber();
+                //         maze.resetTimer();
+                //         maze.setThreadStop();
+                //         maze.setBallPosition(maze.getEntrance());
+                //     }
+
+                //     maze.requestFocus();
+                //     maze.repaint();
+                // } else { // If row and col number has changed
+                //     maze.setColNumber(col);
+                //     maze.setRowNumber(row);
+
+                //     // Checking again if algorithm has changed
+                //     if (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod()) {
+                //         maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
+                //     }
+                //     maze.createMaze();
+                //     maze.requestFocus();
+                // }
+
+                // If values changed, update them 
+                if ((maze.getColNumber() != col || maze.getRowNumber() != row) || (getMazeGenerationAlgorithm() != maze.getMazeGenerationMethod())) {
+                    maze.setMazeGenerationMethod(getMazeGenerationAlgorithm());
                     maze.setColNumber(col);
                     maze.setRowNumber(row);
-                    if (getCreateMaze() != maze.getCreateMaze()) {
-                        maze.setCreateMaze(getCreateMaze());
-                    }
-                    maze.createMaze();
-                    maze.requestFocus();
                 }
+
+                // Calling createMaze() regardless of what happens
+                maze.createMaze();
+                maze.repaint();
             }
         });
         button_4.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -227,7 +247,7 @@ class MazeFrame extends JFrame {
         panel_9 = new JPanel();
         panel_10.add(panel_9);
 
-        lblLatticesWidth = new JLabel("Cell Width:");
+        lblLatticesWidth = new JLabel("Cell Width (zoom):");
         panel_9.add(lblLatticesWidth);
 
         spinner_1 = new JSpinner();
@@ -252,15 +272,18 @@ class MazeFrame extends JFrame {
         panel_15.setLayout(new GridLayout(0, 1, 0, 0));
 
         rdbtnNewRadioButton = new JRadioButton("Depth First Search");
-        rdbtnNewRadioButton.addActionListener(e -> setCreateMaze(DEPTH_FIRST_SEARCH_CREATE_MAZE));
+        rdbtnNewRadioButton
+                .addActionListener(e -> setMazeGenerationAlgorithm(DEPTH_FIRST_SEARCH_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton);
 
         rdbtnNewRadioButton_1 = new JRadioButton("Randomized Prim");
-        rdbtnNewRadioButton_1.addActionListener(e -> setCreateMaze(RANDOMIZED_PRIM_CREATE_MAZE));
+        rdbtnNewRadioButton_1
+                .addActionListener(e -> setMazeGenerationAlgorithm(RANDOMIZED_PRIM_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton_1);
 
         rdbtnNewRadioButton_2 = new JRadioButton("Recursive Division");
-        rdbtnNewRadioButton_2.addActionListener(e -> setCreateMaze(RECURSIVE_DIVISION_CREATE_MAZE));
+        rdbtnNewRadioButton_2
+                .addActionListener(e -> setMazeGenerationAlgorithm(RECURSIVE_DIVISION_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton_2);
 
         panel_13 = new JPanel();
@@ -435,11 +458,11 @@ class MazeFrame extends JFrame {
         this.solveMaze = solveMaze;
     }
 
-    public char getCreateMaze() {
-        return createMaze;
+    public char getMazeGenerationAlgorithm() {
+        return mazeGenerationAlgorithm;
     }
 
-    public void setCreateMaze(char createMaze) {
-        this.createMaze = createMaze;
+    public void setMazeGenerationAlgorithm(char algorithm) {
+        this.mazeGenerationAlgorithm = algorithm;
     }
 }
