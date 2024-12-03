@@ -8,6 +8,9 @@ import java.util.Stack;
 
 /**
  * This abstract class provides a blueprint for maze creation algorithms.
+ * 
+ * @author Tien Tran
+ * @author Tomas Olvera
  */
 abstract class AbstractCreateMaze {
 

@@ -22,6 +22,9 @@ import javax.swing.border.EtchedBorder;
 /**
  * This class represents the main frame of the maze game application. It contains the maze panel,
  * control buttons, and settings for the game.
+ * 
+ * @author Tomas Olvera
+ * @author Tien Tran
  */
 class MazeFrame extends JFrame {
     private static final char DEPTH_FIRST_SEARCH_SOLVE_MAZE = 0; // Constant for Depth-First Search

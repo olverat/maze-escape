@@ -10,6 +10,9 @@ import javax.swing.Timer;
 
 /**
  * This class extends JTextField to create a timer display that updates every second.
+ * 
+ * @author Tien Tran
+ * @author Tomas Olvera
  */
 public class Timers extends JTextField {
     private Date now; // Current time

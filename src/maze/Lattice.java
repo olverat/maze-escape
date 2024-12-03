@@ -4,6 +4,9 @@ import java.awt.Point;
 
 /**
  * Represents a single cell in a maze.
+ * 
+ * @author Tien Tran
+ * @author Tomas Olvera
  */
 class Lattice {
     private boolean passable; // Indicates whether the cell is passable

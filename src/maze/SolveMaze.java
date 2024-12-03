@@ -7,6 +7,9 @@ import java.util.Stack;
 
 /**
  * This abstract class provides a blueprint for maze-solving algorithms.
+ * 
+ * @author Tomas Olvera
+ * @author Tien Tran
  */
 abstract class AbstractSolveMaze {
     protected Stack<Point> pathStack = null; // Stack to store the solution path

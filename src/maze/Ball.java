@@ -4,6 +4,8 @@ import java.awt.Color;
 
 /**
  * Represents the ball that the user controls in the maze game.
+ * @author Tien Tran
+ * @author Tomas Olvera
  */
 class Ball {
     private int x; // x-coordinate of the ball

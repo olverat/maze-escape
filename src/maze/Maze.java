@@ -22,6 +22,9 @@ import javax.swing.border.EtchedBorder;
 /**
  * This class represents the maze game panel. It handles maze creation, user interaction, and game
  * logic.
+ * 
+ * @author Tomas Olvera
+ * @author Tien Tran
  */
 class Maze extends JPanel {
     private Point entrance; // Entrance coordinates
