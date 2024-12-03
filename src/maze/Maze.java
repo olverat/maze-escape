@@ -152,9 +152,9 @@ class Maze extends JPanel {
      * Displays a game over message with the time and steps taken.
      */
     private void gameOverMessage() {
-        JOptionPane.showMessageDialog(null, "Congratulations on getting out of the maze!\n"
-                + "Time you have used to go out of the maze is: " + timeText.getText()
-                + "\nThe number of the steps you have used to go out of the maze is: " + stepNumber,
+        JOptionPane.showMessageDialog(null,
+                "Congratulations on getting out of the maze!\n" + "You took " + timeText.getText()
+                        + " seconds!" + "\nIt took you " + stepNumber + " steps to solve the maze.",
                 "Game Over", JOptionPane.INFORMATION_MESSAGE);
     }
 
