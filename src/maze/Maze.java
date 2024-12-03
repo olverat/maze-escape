@@ -231,13 +231,25 @@ class Maze extends JPanel {
             case KeyEvent.VK_LEFT:
                 --tx;
                 break;
+            case KeyEvent.VK_A:
+                --tx;
+                break;
             case KeyEvent.VK_RIGHT:
+                ++tx;
+                break;
+            case KeyEvent.VK_D:
                 ++tx;
                 break;
             case KeyEvent.VK_UP:
                 --ty;
                 break;
+            case KeyEvent.VK_W:
+                --ty;
+                break;
             case KeyEvent.VK_DOWN:
+                ++ty;
+                break;
+            case KeyEvent.VK_S:
                 ++ty;
                 break;
             case KeyEvent.VK_ESCAPE:
