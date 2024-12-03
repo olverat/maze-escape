@@ -119,7 +119,7 @@ class MazeFrame extends JFrame {
         panel_4.setBorder(new EtchedBorder(EtchedBorder.LOWERED, null, null));
         panel_3.add(panel_4, BorderLayout.SOUTH);
 
-        button_4 = new JButton("GO");
+        button_4 = new JButton("Generate Maze");
         button_4.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -160,7 +160,7 @@ class MazeFrame extends JFrame {
         button_4.setActionCommand("GO");
         panel_4.add(button_4);
 
-        btnQuit = new JButton("QUIT");
+        btnQuit = new JButton("Quit To Desktop");
         btnQuit.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -180,7 +180,7 @@ class MazeFrame extends JFrame {
         panel_5.add(panel_6);
         panel_6.setLayout(new BorderLayout(0, 0));
 
-        label_1 = new JLabel("Please set the parameters of the maze:");
+        label_1 = new JLabel("Maze Parameters:");
         label_1.setFont(new Font("Arial", Font.PLAIN, 14));
         panel_6.add(label_1, BorderLayout.NORTH);
 
@@ -191,7 +191,7 @@ class MazeFrame extends JFrame {
         panel_8 = new JPanel();
         panel_7.add(panel_8);
 
-        label_2 = new JLabel("ROWS:");
+        label_2 = new JLabel("Rows:");
         panel_8.add(label_2);
 
         spinner = new JSpinner();
@@ -209,7 +209,7 @@ class MazeFrame extends JFrame {
         panel_12 = new JPanel();
         panel_11.add(panel_12);
 
-        label_4 = new JLabel("COLS:");
+        label_4 = new JLabel("Columns:");
         panel_12.add(label_4);
 
         spinner_2 = new JSpinner();
@@ -226,7 +226,7 @@ class MazeFrame extends JFrame {
         panel_9 = new JPanel();
         panel_10.add(panel_9);
 
-        lblLatticesWidth = new JLabel("Lattices' width: ");
+        lblLatticesWidth = new JLabel("Cell Width:");
         panel_9.add(lblLatticesWidth);
 
         spinner_1 = new JSpinner();
@@ -242,7 +242,7 @@ class MazeFrame extends JFrame {
         panel_5.add(panel_14);
         panel_14.setLayout(new BorderLayout(0, 0));
 
-        lblPleaseSelectThe_1 = new JLabel("Please select the method to create the maze: ");
+        lblPleaseSelectThe_1 = new JLabel("Maze Generation Algorithm");
         lblPleaseSelectThe_1.setFont(new Font("Arial", Font.PLAIN, 14));
         panel_14.add(lblPleaseSelectThe_1, BorderLayout.NORTH);
 
@@ -250,15 +250,15 @@ class MazeFrame extends JFrame {
         panel_14.add(panel_15);
         panel_15.setLayout(new GridLayout(0, 1, 0, 0));
 
-        rdbtnNewRadioButton = new JRadioButton("Depth First Search Algorithm");
+        rdbtnNewRadioButton = new JRadioButton("Depth First Search");
         rdbtnNewRadioButton.addActionListener(e -> setCreateMaze(DEPTH_FIRST_SEARCH_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton);
 
-        rdbtnNewRadioButton_1 = new JRadioButton("Randomized Prim's Algorithm");
+        rdbtnNewRadioButton_1 = new JRadioButton("Randomized Prim");
         rdbtnNewRadioButton_1.addActionListener(e -> setCreateMaze(RANDOMIZED_PRIM_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton_1);
 
-        rdbtnNewRadioButton_2 = new JRadioButton("Recursive Division Algorithm");
+        rdbtnNewRadioButton_2 = new JRadioButton("Recursive Division");
         rdbtnNewRadioButton_2.addActionListener(e -> setCreateMaze(RECURSIVE_DIVISION_CREATE_MAZE));
         panel_15.add(rdbtnNewRadioButton_2);
 
@@ -267,7 +267,7 @@ class MazeFrame extends JFrame {
         panel_5.add(panel_13);
         panel_13.setLayout(new BorderLayout(0, 0));
 
-        lblPleaseSelectThe = new JLabel("Please select the method to solve the maze: ");
+        lblPleaseSelectThe = new JLabel("Maze Solving Technique");
         lblPleaseSelectThe.setFont(new Font("Arial", Font.PLAIN, 14));
         panel_13.add(lblPleaseSelectThe, BorderLayout.NORTH);
 
@@ -275,11 +275,11 @@ class MazeFrame extends JFrame {
         panel_13.add(panel_16);
         panel_16.setLayout(new GridLayout(0, 1, 0, 0));
 
-        rdbtnDepthFirstSearch = new JRadioButton("Depth First Search Algorithm");
+        rdbtnDepthFirstSearch = new JRadioButton("Depth First Search");
         rdbtnDepthFirstSearch.addActionListener(e -> setSolveMaze(DEPTH_FIRST_SEARCH_SOLVE_MAZE));
         panel_16.add(rdbtnDepthFirstSearch);
 
-        rdbtnBreadthFirstSearch = new JRadioButton("Breadth First Search Algorithm");
+        rdbtnBreadthFirstSearch = new JRadioButton("Breadth First Search");
         rdbtnBreadthFirstSearch
                 .addActionListener(e -> setSolveMaze(BREADTH_FIRST_SEARCH_SOLVE_MAZE));
         panel_16.add(rdbtnBreadthFirstSearch);
@@ -331,7 +331,7 @@ class MazeFrame extends JFrame {
         });
         panel.add(button_1);
 
-        prompt = new JButton("Prompt");
+        prompt = new JButton("Show Solution");
         prompt.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -343,7 +343,7 @@ class MazeFrame extends JFrame {
         });
         panel.add(prompt);
 
-        button_2 = new JButton("Player do");
+        button_2 = new JButton("Let Me Solve");
         button_2.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -364,7 +364,7 @@ class MazeFrame extends JFrame {
         button_2.setEnabled(false);
         panel.add(button_2);
 
-        button_3 = new JButton("Computer do");
+        button_3 = new JButton("Let Computer Solve");
         button_3.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
