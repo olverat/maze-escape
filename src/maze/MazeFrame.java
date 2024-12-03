@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.Panel;
+import java.awt.Point;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.ButtonGroup;
@@ -49,7 +50,7 @@ class MazeFrame extends JFrame {
     private JButton button_1;
     private JButton button_2;
     private JButton button_3;
-    private JButton prompt;
+    private JButton showSolutionButton;
 
     private JPanel panel_3;
     private JLabel label;
@@ -129,7 +130,7 @@ class MazeFrame extends JFrame {
                 button_1.setEnabled(true);
                 button_2.setEnabled(false);
                 button_3.setEnabled(true);
-                prompt.setEnabled(true);
+                showSolutionButton.setEnabled(true);
                 int col = Integer.parseInt(spinner_2.getValue().toString());
                 int row = Integer.parseInt(spinner.getValue().toString());
                 if (maze.getColNumber() == col && maze.getRowNumber() == row) {
@@ -298,14 +299,22 @@ class MazeFrame extends JFrame {
         button.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                maze.init();
-                maze.createMaze();
+                // maze.init();
+                // maze.createMaze();
+                maze.setBallPosition(new Point(0, 1));
+
+                // Reset timer
+                maze.resetTimer();
+
+                // Reset steps
+                maze.resetStepNumber();
+
                 button_1.setEnabled(true);
                 button_1.setText("Pause");
                 setPaused(false);
                 button_2.setEnabled(false);
                 button_3.setEnabled(true);
-                prompt.setEnabled(true);
+                showSolutionButton.setEnabled(true);
                 maze.requestFocus();
             }
         });
@@ -331,17 +340,18 @@ class MazeFrame extends JFrame {
         });
         panel.add(button_1);
 
-        prompt = new JButton("Show Solution");
-        prompt.addMouseListener(new MouseAdapter() {
+        showSolutionButton = new JButton("Show Solution");
+        showSolutionButton.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
+                // If the maze is unsolved, show the solution path
                 if (!maze.isWin()) {
                     maze.computerSolveMazeForBallPosition();
                     maze.requestFocus();
                 }
             }
         });
-        panel.add(prompt);
+        panel.add(showSolutionButton);
 
         button_2 = new JButton("Let Me Solve");
         button_2.addMouseListener(new MouseAdapter() {
@@ -352,7 +362,7 @@ class MazeFrame extends JFrame {
                     button_3.setEnabled(true);
                     button_2.setEnabled(false);
                     button_1.setEnabled(true);
-                    prompt.setEnabled(true);
+                    showSolutionButton.setEnabled(true);
                     maze.resetStepNumber();
                     maze.resetTimer();
                     maze.setThreadStop();
@@ -372,7 +382,7 @@ class MazeFrame extends JFrame {
                     button_2.setEnabled(true);
                     button_3.setEnabled(false);
                     button_1.setEnabled(false);
-                    prompt.setEnabled(false);
+                    showSolutionButton.setEnabled(false);
                 }
             }
         });

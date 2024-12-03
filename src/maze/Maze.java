@@ -406,7 +406,7 @@ class Maze extends JPanel {
         int time;
         Object[] selections = {"forever", "10s", "5s", "3s", "1s"};
         Object select = JOptionPane.showInputDialog(null,
-                "Please select the speed of which the ball runs", "Maze Escape",
+                "Solution Timer", "Maze Escape",
                 JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
@@ -476,7 +476,7 @@ class Maze extends JPanel {
         Object[] selections =
                 {"lower speed", "low speed", "medium speed", "high speed", "higher speed"};
         Object select = JOptionPane.showInputDialog(null,
-                "Please select the speed of which the ball runs", "Maze Escape",
+                "Select the playback speed for this solution:", "Maze Escape",
                 JOptionPane.INFORMATION_MESSAGE, null, selections, selections[2]);
         if (select != null) {
             switch ((String) select) {
